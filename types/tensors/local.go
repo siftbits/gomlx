@@ -3,11 +3,12 @@ package tensors
 import (
 	"encoding/gob"
 	"fmt"
-	"k8s.io/klog/v2"
 	"os"
 	"reflect"
 	"strconv"
 	"unsafe"
+
+	"k8s.io/klog/v2"
 
 	"github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/backends"
@@ -97,7 +98,7 @@ func (t *Tensor) HasLocal() bool {
 // Even scalar values have a flattened data representation of one element.
 //
 // It panics if the tensor is in an invalid state (if it was finalized), or if it is a tuple.
-func (t *Tensor) ConstFlatData(accessFn func(flat any)) {
+func (t *Tensor) ConstFlatData(accessFn func(flat any)) { //lewgun
 	t.mu.Lock()
 	defer t.mu.Unlock()
 	t.lockedConstFlatData(accessFn)
@@ -332,7 +333,7 @@ func (t *Tensor) LayoutStrides() (strides []int) {
 // This is expensive, and usually only used for smaller tensors in tests and to print results.
 //
 // If the local tensor is empty it panics with the corresponding error.
-func (t *Tensor) Value() any {
+func (t *Tensor) Value() any { //lewgun
 	var mdSlice any
 	t.ConstFlatData(func(flat any) {
 		if t.shape.IsScalar() {
@@ -607,7 +608,7 @@ func FromValue[S MultiDimensionSlice](value S) *Tensor {
 // If value is anything but a Device tensor, it will return a Local tensor.
 //
 // It panics with an error if `value` type is unsupported or the shape is not regular.
-func FromAnyValue(value any) (t *Tensor) {
+func FromAnyValue(value any) (t *Tensor) { //lewgun
 	if valueT, ok := value.(*Tensor); ok {
 		// Input is already a Tensor.
 		return valueT

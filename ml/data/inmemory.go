@@ -485,6 +485,7 @@ func (mds *InMemoryDataset) Yield() (spec any, inputs []*tensors.Tensor, labels 
 
 	// Gather the elements (inputs and labels) all in one call, given the indices.
 	inputsAndLabels := make([]*tensors.Tensor, len(mds.inputsAndLabelsData))
+	//lewgun
 	indicesAndData := make([]any, 0, len(mds.inputsAndLabelsData)+1)
 	var indicesT *tensors.Tensor
 	if mds.batchSize == 0 {

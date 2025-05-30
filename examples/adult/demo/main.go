@@ -22,6 +22,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"time"
+
 	"github.com/gomlx/gomlx/backends"
 	"github.com/gomlx/gomlx/examples/adult"
 	. "github.com/gomlx/gomlx/graph"
@@ -47,7 +49,6 @@ import (
 	"github.com/janpfeifer/must"
 	"github.com/schollz/progressbar/v3"
 	"k8s.io/klog/v2"
-	"time"
 
 	_ "github.com/gomlx/gomlx/backends/default"
 )
@@ -116,7 +117,7 @@ var (
 
 	flagNumQuantiles = flag.Int("quantiles", 100, "Max number of quantiles to use for numeric features, used during piece-wise linear calibration. It will only use unique values, so if there are fewer variability, fewer quantiles are used.")
 	flagEmbeddingDim = flag.Int("embedding_dim", 8, "Default embedding dimension for categorical values.")
-	flagVerbosity    = flag.Int("verbosity", 1, "Level of verbosity, the higher the more verbose.")
+	flagVerbosity    = flag.Int("verbosity", 2, "Level of verbosity, the higher the more verbose.")
 
 	flagUseCategorical       = flag.Bool("use_categorical", true, "Use categorical features.")
 	flagUseContinuous        = flag.Bool("use_continuous", true, "Use continuous features.")
@@ -181,7 +182,11 @@ func mainWithContext(ctx *context.Context, dataDir, checkpointPath string, param
 
 	// Create a train.Trainer: this object will orchestrate running the model, feeding
 	// results to the optimizer, evaluating the metrics, etc. (all happens in trainer.TrainStep)
-	trainer := train.NewTrainer(backend, ctx, ModelGraph, losses.BinaryCrossentropyLogits,
+	trainer := train.NewTrainer(
+		backend,
+		ctx,
+		ModelGraph,
+		losses.BinaryCrossentropyLogits,
 		optimizers.FromContext(ctx),
 		[]metrics.Interface{movingAccuracyMetric}, // trainMetrics
 		[]metrics.Interface{meanAccuracyMetric})   // evalMetrics
@@ -250,6 +255,10 @@ func mainWithContext(ctx *context.Context, dataDir, checkpointPath string, param
 	// Finally, print an evaluation on train and test datasets.
 	return commandline.ReportEval(trainer, trainEvalDS, testEvalDS)
 }
+
+// logits → softmax → probabilities
+//
+// logits：是模型输出的未经归一化的实数分数（通常是神经网络最后一层的输出）。
 
 // ModelGraph outputs the logits (not the probabilities). The parameter inputs should contain 3 tensors:
 //

@@ -184,10 +184,14 @@ func NewTrainer(backend backends.Backend, ctx *context.Context,
 		}
 		return loss
 	}
-	lossAndMetrics = append(lossAndMetrics, metrics.NewBaseMetric("Batch Loss+Regularization", "loss+", metrics.LossMetricType, batchLossFn, nil))
-	lossAndMetrics = append(lossAndMetrics, metrics.NewExponentialMovingAverageMetric("Moving Average Loss+Regularization", "~loss+", metrics.LossMetricType, batchLossFn, nil, 0.01))
+	lossAndMetrics = append(lossAndMetrics,
+		metrics.NewBaseMetric("Batch Loss+Regularization", "loss+", metrics.LossMetricType, batchLossFn, nil))
+	lossAndMetrics = append(lossAndMetrics,
+		metrics.NewExponentialMovingAverageMetric("Moving Average Loss+Regularization", "~loss+", metrics.LossMetricType, batchLossFn, nil, 0.01))
+
 	if r.lossFn != nil {
-		lossAndMetrics = append(lossAndMetrics, metrics.NewExponentialMovingAverageMetric("Moving Average Loss", "~loss", metrics.LossMetricType, r.lossFnScalarLoss, nil, 0.01))
+		lossAndMetrics = append(lossAndMetrics,
+			metrics.NewExponentialMovingAverageMetric("Moving Average Loss", "~loss", metrics.LossMetricType, r.lossFnScalarLoss, nil, 0.01))
 	}
 
 	lossAndMetrics = append(lossAndMetrics, trainMetrics...)
@@ -383,7 +387,9 @@ func (r *Trainer) callGraphFn(
 	}
 
 	// Exec.Call(), collect metrics:
-	err := TryCatch[error](func() { metrics = exec.Call(inputsAndLabels...) })
+	err := TryCatch[error](func() {
+		metrics = exec.Call(inputsAndLabels...)
+	})
 
 	if err != nil {
 		panic(errors.WithMessage(err, "failed to execute train/eval step"))

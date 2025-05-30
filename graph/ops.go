@@ -1378,6 +1378,7 @@ func TransposeAllDims(x *Node, permutations ...int) *Node {
 	return backendTranspose(x, permutations...)
 }
 
+// lewgun
 // Einsum evaluates the "Einstein summation" various types of products (inner/outer/batched)
 // between 2 tensors, on arbitrary dimensions.
 // This version uses a textual description on how to manipulate the axes.

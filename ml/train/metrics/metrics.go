@@ -211,7 +211,20 @@ func (m *meanMetric) UpdateGraph(ctx *context.Context, labels, predictions []*No
 	if weightVar == nil {
 		Panicf("variable nil building computation graph for mean metric %q", m.Name())
 	}
+	/*
+		核心思想是在一个执行图中，递增式地计算加权平均值（mean），并将历史累加值保存在变量中:
 
+		当前 batch 第 t 次：
+			rt​ 表示当前 metric 值（result）
+			wt​ 表示当前权重（resultWeight）
+		变量：
+			t−1​ 为上一次累计的加权总值（total）
+			Wt−1​ 为上一次累计的总权重（weight）
+
+		   Tt​=Tt−1 ​+ rt​⋅wt​
+		   Wt=Wt−1 + wt
+		   meant=Tt / Wt
+	*/
 	total := totalVar.ValueGraph(g)
 	previousWeight := weightVar.ValueGraph(g)
 	resultWeight := upPrecision(BatchSize(predictions[0]))

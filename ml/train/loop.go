@@ -17,6 +17,12 @@
 package train
 
 import (
+	"io"
+	"math"
+	"slices"
+	"sort"
+	"time"
+
 	. "github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/ml/context"
 	"github.com/gomlx/gomlx/ml/train/optimizers"
@@ -24,11 +30,6 @@ import (
 	"github.com/gomlx/gomlx/types/tensors"
 	"github.com/gomlx/gopjrt/dtypes"
 	"github.com/pkg/errors"
-	"io"
-	"math"
-	"slices"
-	"sort"
-	"time"
 )
 
 // Priority for hooks, the lowest values are run first. Defaults to 0, but negative

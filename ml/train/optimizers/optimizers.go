@@ -293,7 +293,7 @@ func addGradientsToVariablesGraph(ctx *context.Context, loss, learningRate, glob
 		vNode := v.ValueGraph(g)
 		updatedValue := Sub(vNode, scaledGradient)
 		updatedValue = ClipNaNsInUpdates(ctx, vNode, updatedValue)
-		v.SetValueGraph(updatedValue)
+		v.SetValueGraph(updatedValue) //lewgun
 		ii++
 	})
 	if ii != numTrainable {

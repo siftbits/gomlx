@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"os"
+	"slices"
+	"strings"
+
 	"github.com/gomlx/gomlx/ml/context"
 	"github.com/gomlx/gomlx/ml/data"
 	"github.com/gomlx/gomlx/types/xslices"
 	"github.com/pkg/errors"
-	"os"
-	"slices"
-	"strings"
 )
 
 // ParseContextSettings from settings -- typically the contents of a flag set by the user.

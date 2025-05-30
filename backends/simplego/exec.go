@@ -2,10 +2,11 @@ package simplego
 
 import (
 	"fmt"
+	"sync"
+
 	"github.com/gomlx/gomlx/backends"
 	"github.com/gomlx/gomlx/types/shapes"
 	"github.com/pkg/errors"
-	"sync"
 )
 
 var _ backends.Executable = (*Executable)(nil)
@@ -276,7 +277,7 @@ func (e *Executable) Execute(inputs []backends.Buffer, donate []bool) ([]backend
 		}
 
 		// Execute op.
-		if nodeExecutor != nil {
+		if nodeExecutor != nil { //lewgun
 			// Single output operation:
 			var err error
 			execBuf.results[nodeIdx], err = nodeExecutor(e.backend, node, inputBuffers, inputsOwned)
@@ -322,7 +323,7 @@ func (e *Executable) Execute(inputs []backends.Buffer, donate []bool) ([]backend
 	}
 
 	// Return outputs, copying them if not owned by the executor
-	outputs := make([]backends.Buffer, len(e.builder.outputs))
+	outputs := make([]backends.Buffer, len(e.builder.outputs)) //lewgun
 	for ii, outputNode := range e.builder.outputs {
 		outNodeIdx := outputNode.builderIdx
 		outBuf := execBuf.results[outNodeIdx]

@@ -93,23 +93,23 @@ func combineOutputShape(outputShape, inputShape shapes.Shape) shapes.Shape {
 // Gradient creates new nodes for the gradients of the output with respect to each node in gradientNodes.
 // The output must be a scalar -- otherwise this would be called Jacobian.
 // TODO: Define a Jacobian.
-func Gradient(output *Node, gradientNodes ...*Node) []*Node {
+func Gradient(loss *Node, gradientNodes ...*Node) []*Node {
 	allInputNodes := make([]*Node, 0, len(gradientNodes)+1)
-	allInputNodes = append(allInputNodes, output)
+	allInputNodes = append(allInputNodes, loss)
 	allInputNodes = append(allInputNodes, gradientNodes...)
 	g := validateBuildingGraphFromInputs(allInputNodes...)
 
-	outputShape := output.Shape()
+	outputShape := loss.Shape()
 	if outputShape.Rank() > 0 || outputShape.DType.IsComplex() {
 		Panicf("only gradients of a non-complex scalar with respect to tensors are accepted, not jacobians, "+
-			"that is, output must be float scalar, got %s", output.Shape())
+			"that is, output must be float scalar, got %s", loss.Shape())
 	}
 
-	rg := newReverseGraph(g, output, gradientNodes)
-	rOutput := rg.ReverseNodes[output.Id()]
+	rg := newReverseGraph(g, loss, gradientNodes)
+	rOutput := rg.ReverseNodes[loss.Id()]
 	// Initialize gradient of the output with respect to itself to 1. When outputShape.Rank() != 0
 	// we will need to find something akin to a matrix identity for possibly higher dimensional tensors.
-	rOutput.AccumulatedVJP = Ones(output.graph, shapes.Make(outputShape.DType))
+	rOutput.AccumulatedVJP = Ones(loss.graph, shapes.Make(outputShape.DType)) //lewgun
 
 	// Whether we need the gradient for the node.
 	needGradientForNode := func(node *Node) bool {
@@ -123,7 +123,7 @@ func Gradient(output *Node, gradientNodes ...*Node) []*Node {
 	// Loop from final node backwards, back propagating the gradients. Notice that the nodes are ordered according to
 	// the DAG, meaning that by the time g.nodes[ii] is reached, all nodes consuming its outputs will already have been
 	// accounted for, and their VJPs summed up.
-	for nodeIdx := output.Id(); nodeIdx >= 0; nodeIdx -= 1 {
+	for nodeIdx := loss.Id(); nodeIdx >= 0; nodeIdx -= 1 { //lewgun
 		node := g.nodes[nodeIdx]
 		rNode := rg.ReverseNodes[nodeIdx]
 

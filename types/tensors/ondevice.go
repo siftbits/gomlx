@@ -1,10 +1,11 @@
 package tensors
 
 import (
+	"reflect"
+
 	"github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/backends"
 	"github.com/pkg/errors"
-	"reflect"
 )
 
 // device holds internal information about on-device storage of a Tensor.
@@ -18,7 +19,7 @@ type onDevice struct {
 // The ownership of the buffer is transferred to the new Tensor.
 //
 // This doesn't work for shared buffers, it assumes the buffer is not shared.
-func FromBuffer(backend backends.Backend, buffer backends.Buffer) (t *Tensor) {
+func FromBuffer(backend backends.Backend, buffer backends.Buffer) (t *Tensor) { //lewgun
 	// Create tensor.
 	shape, err := backend.BufferShape(buffer)
 	if err != nil {

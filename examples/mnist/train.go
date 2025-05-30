@@ -58,7 +58,7 @@ func CreateDefaultContext() *context.Context {
 		"model":           "linear",
 		"loss":            "sparse_cross_logits",
 		"num_checkpoints": 3,
-		"train_steps":     4000,
+		"train_steps":     400,
 
 		// batch_size for training.
 		"batch_size": 600,

@@ -20,16 +20,17 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"os"
+	"strconv"
+	"testing"
+	"unsafe"
+
 	"github.com/gomlx/gomlx/types/shapes"
 	"github.com/gomlx/gopjrt/dtypes"
 	"github.com/gomlx/gopjrt/dtypes/bfloat16"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/x448/float16"
-	"os"
-	"strconv"
-	"testing"
-	"unsafe"
 )
 
 func cmpShapes(t *testing.T, shape, wantShape shapes.Shape, err error) {
@@ -60,7 +61,7 @@ func TestFromValue(t *testing.T) {
 		cmpShapes(t, shape, wantShape, err)
 	} else {
 		// For any other int size, it should panic.
-		wantShape = shapes.Shape{DType: dtypes.Int32, Dimensions: nil}
+		_ = shapes.Shape{DType: dtypes.Int32, Dimensions: nil}
 		require.Panics(t, func() {
 			shape, err = shapeForValue(5)
 		})

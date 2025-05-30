@@ -91,6 +91,10 @@ package graph
 
 import (
 	"fmt"
+	"strings"
+	"sync"
+	"time"
+
 	"github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/backends"
 	"github.com/gomlx/gomlx/types"
@@ -100,9 +104,6 @@ import (
 	"github.com/gomlx/gopjrt/dtypes"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
-	"strings"
-	"sync"
-	"time"
 )
 
 // Graph with the operations and dependencies needed to run a computation.
@@ -404,7 +405,7 @@ func (g *Graph) Compile(outputs ...*Node) {
 
 	outputsOps := xslices.Map(outputs, func(node *Node) backends.Op { return node.outputOps[0] })
 	var err error
-	g.executable, err = g.builder.Compile(outputsOps...)
+	g.executable, err = g.builder.Compile(outputsOps...) //lewgun
 	if err != nil {
 		panic(errors.WithMessagef(err, "Graph failed to compile for the backend"))
 	}
@@ -515,7 +516,7 @@ func (g *Graph) RunWithMap(inputs ParamsMap) (outputs []*tensors.Tensor) {
 //
 // Notice that for repeated output nodes in the graph (the same output node returned in more than one position), the
 // returned tensors are shared.
-func (g *Graph) RunWithBuffers(inputs []backends.Buffer, donate []bool) (outputs []*tensors.Tensor) {
+func (g *Graph) RunWithBuffers(inputs []backends.Buffer, donate []bool) (outputs []*tensors.Tensor) { //lewgun
 	g.AssertCompiled()
 	numParams := g.NumParameters()
 	if len(inputs) != numParams {
@@ -538,6 +539,7 @@ func (g *Graph) RunWithBuffers(inputs []backends.Buffer, donate []bool) (outputs
 	if err != nil {
 		panic(errors.WithMessagef(err, "Graph failed to execute"))
 	}
+	//lewgun
 	outputs = xslices.Map(results, func(buf backends.Buffer) *tensors.Tensor { return tensors.FromBuffer(g.backend, buf) })
 	return
 }

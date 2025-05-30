@@ -4,12 +4,13 @@ package graph
 
 import (
 	"fmt"
+	"slices"
+	"strings"
+
 	"github.com/gomlx/gomlx/backends"
 	"github.com/gomlx/gomlx/types/shapes"
 	"github.com/gomlx/gomlx/types/xslices"
 	"github.com/gomlx/gopjrt/dtypes"
-	"slices"
-	"strings"
 )
 
 type NodeType int
@@ -952,6 +953,7 @@ func backendConcatenate(axis int, operands ...*Node) (node *Node) {
 		axis:     axis,
 		operands: slices.Clone(operands),
 	}
+	// 	result, err := g.builder.Concatenate(inputs.axis, xslices.Map(operands, func { n | return n.outputOps[0] })...)
 	result, err := g.builder.Concatenate(inputs.axis, xslices.Map(operands, func(node *Node) backends.Op { return node.outputOps[0] })...)
 	if err != nil {
 		panic(err)

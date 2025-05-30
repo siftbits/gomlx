@@ -718,7 +718,7 @@ func (ctx *Context) setVariableInScope(name string, v *Variable) {
 		ctx.data.variablesMap[ctx.scope] = vSet
 	}
 	vSet[name] = v
-	ctx.data.variables = append(ctx.data.variables, v)
+	ctx.data.variables = append(ctx.data.variables, v) //lewgun
 }
 
 // DeleteVariable if it exists.
