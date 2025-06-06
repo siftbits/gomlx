@@ -35,7 +35,7 @@ import (
 	"github.com/janpfeifer/must"
 	"k8s.io/klog/v2"
 
-	_ "github.com/gomlx/gomlx/backends/simplego"
+	_ "github.com/gomlx/gomlx/backends/default"
 )
 
 var (

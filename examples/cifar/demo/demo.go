@@ -21,7 +21,6 @@ package main
 import (
 	"flag"
 
-	_ "github.com/gomlx/gomlx/backends/simplego" // Import the SimpleGo backend.
 	"github.com/gomlx/gomlx/examples/cifar"
 	"github.com/gomlx/gomlx/ml/context"
 	"github.com/gomlx/gomlx/ml/layers"
@@ -35,6 +34,8 @@ import (
 	"github.com/gomlx/gomlx/ui/gonb/plotly"
 	"github.com/janpfeifer/must"
 	"k8s.io/klog/v2"
+
+	_ "github.com/gomlx/gomlx/backends/default"
 )
 
 var (
