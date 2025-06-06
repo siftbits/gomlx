@@ -2,6 +2,12 @@
 
 # Next
 
+* Package `types/tensors/numpy` with methods to read and write tensors from/to `.npy` and `.npz` files.
+* Package `simplego`:
+  * Fixed bug introduced in parallelize version of Erf(x).
+
+# v0.19.5: 2024/05/30 SimpleGo (go) backend optimizations
+
 * Package `simplego`, the pure Go backend:
   * Added several benchmarks for SimpleGo DotGeneral. Run with:
     `go test ./backends/simplego/ -test.v -test.run PerformanceTable -perf`
@@ -9,6 +15,14 @@
     * Version for small inner matrices, with block iteration and loop unrolling.
     * Version for larger inner matrices: re-package inputs in ~4K blocks, and recursively partition matrices.
     * Added parallelization: at batch level and in the partitioning in the larger matrices.
+  * Parallel execution of the Ops: that helps a lot during training (cut the training time almost in half for the adult 
+    dataset), but it may hurt inference if you are running many batches in parallel. 
+    So it dynamically decides to run sequentially or in parallel depending on the number of computations
+    being executed concurrently.
+    Added also configurations `GOMLX_BACKEND=go:ops_sequential` and `GOMLX_BACKEND=go:ops_parallel` 
+    to force one type of execution or another.
+  * Parallelized Erf(x): this will become a model on how to parallelize other unary functions — probably
+    when SIMD is available.
 
 # v0.19.4: 2024/05/24 added Vector Neural Networks (VNNs)
 

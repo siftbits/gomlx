@@ -25,6 +25,8 @@ package main
 
 import (
 	"flag"
+	"os"
+
 	"github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/examples/dogsvscats"
 	"github.com/gomlx/gomlx/ml/context"
@@ -32,9 +34,8 @@ import (
 	"github.com/gomlx/gomlx/ui/commandline"
 	"github.com/janpfeifer/must"
 	"k8s.io/klog/v2"
-	"os"
 
-	_ "github.com/gomlx/gomlx/backends/xla"
+	_ "github.com/gomlx/gomlx/backends/simplego"
 )
 
 var (

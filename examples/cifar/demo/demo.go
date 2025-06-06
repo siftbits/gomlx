@@ -20,7 +20,8 @@ package main
 
 import (
 	"flag"
-	_ "github.com/gomlx/gomlx/backends/xla"
+
+	_ "github.com/gomlx/gomlx/backends/simplego" // Import the SimpleGo backend.
 	"github.com/gomlx/gomlx/examples/cifar"
 	"github.com/gomlx/gomlx/ml/context"
 	"github.com/gomlx/gomlx/ml/layers"
@@ -52,7 +53,7 @@ func createDefaultContext() *context.Context {
 		"model":           cifar.C10ValidModels[0],
 		"checkpoint":      "",
 		"num_checkpoints": 3,
-		"train_steps":     3000,
+		"train_steps":     300,
 
 		// batch_size for training.
 		"batch_size": 64,

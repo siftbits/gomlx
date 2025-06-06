@@ -55,7 +55,8 @@ func CreateDefaultContext() *context.Context {
 	ctx.RngStateReset()
 	ctx.SetParams(map[string]any{
 		// Model type to use
-		"model":           "linear",
+		"model": "linear",
+		//"model":           "cnn",
 		"loss":            "sparse_cross_logits",
 		"num_checkpoints": 3,
 		"train_steps":     400,
