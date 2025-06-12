@@ -42,7 +42,7 @@ var (
 	flagDataDir    = flag.String("data", "~/work/cifar", "Directory to cache downloaded and generated dataset files.")
 	flagEval       = flag.Bool("eval", true, "Whether to evaluate the model on the validation data in the end.")
 	flagVerbosity  = flag.Int("verbosity", 1, "Level of verbosity, the higher the more verbose.")
-	flagCheckpoint = flag.String("checkpoint", "", "Directory save and load checkpoints from. If left empty, no checkpoints are created.")
+	flagCheckpoint = flag.String("checkpoint", "~/work/cifar/checkpoint", "Directory save and load checkpoints from. If left empty, no checkpoints are created.")
 )
 
 // createDefaultContext sets the context with default hyperparameters
