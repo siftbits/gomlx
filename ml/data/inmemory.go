@@ -68,7 +68,7 @@ type InMemoryDataset struct {
 	muSampling sync.Mutex
 
 	// batchSize to yield. If set to 0 yields only one result at a time.
-	batchSize int
+	batchSize int //lewgun
 
 	// dropIncompleteBatch, when there are not enough remaining examples in the epoch.
 	dropIncompleteBatch bool

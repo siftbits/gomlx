@@ -93,7 +93,7 @@ func combineOutputShape(outputShape, inputShape shapes.Shape) shapes.Shape {
 // Gradient creates new nodes for the gradients of the output with respect to each node in gradientNodes.
 // The output must be a scalar -- otherwise this would be called Jacobian.
 // TODO: Define a Jacobian.
-func Gradient(loss *Node, gradientNodes ...*Node) []*Node {
+func Gradient(loss *Node, gradientNodes ...*Node) []*Node { //lewgun
 	allInputNodes := make([]*Node, 0, len(gradientNodes)+1)
 	allInputNodes = append(allInputNodes, loss)
 	allInputNodes = append(allInputNodes, gradientNodes...)

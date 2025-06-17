@@ -866,7 +866,7 @@ func execGatherGeneric[T PODIntegerConstraints](params ...any) any {
 		for range slicesSize {
 			// TODO: copy more than one element (dataSize) at a time, when possible.
 			copy(outputBytes[outputBytesIdx:outputBytesIdx+dataSize],
-				operandBytes[operandBytesIdx:operandBytesIdx+dataSize])
+				operandBytes[operandBytesIdx:operandBytesIdx+dataSize]) // fill the output buffer lewgun
 
 			// Increment index in the operand.
 			for axis := operandRank - 1; axis >= 0; axis-- {

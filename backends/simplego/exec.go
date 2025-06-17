@@ -501,7 +501,7 @@ func (e *Executable) Execute(inputs []backends.Buffer, donate []bool) ([]backend
 				}
 
 				// Execute op.
-				if nodeExecutor != nil {
+				if nodeExecutor != nil { //lewgun
 					// Single output operation:
 					var err error
 					execBuf.results[nodeIdx], err = nodeExecutor(e.backend, node, inputBuffers, inputsOwned)

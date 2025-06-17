@@ -250,8 +250,8 @@ func (sgd *sgd) UpdateGraph(ctx *context.Context, g *Graph, loss *Node) {
 	lrVar := LearningRateVar(ctx, dtype, SgdDefaultLearningRate)
 	learningRate := lrVar.ValueGraph(g)
 	globalStep := IncrementGlobalStepGraph(ctx, g, dtype)
-	learningRate = Div(learningRate, Sqrt(globalStep)) // Factor global_step into the learning rate.
-	addGradientsToVariablesGraph(ctx, loss, learningRate, globalStep)
+	learningRate = Div(learningRate, Sqrt(globalStep))                // Factor global_step into the learning rate.
+	addGradientsToVariablesGraph(ctx, loss, learningRate, globalStep) //lewgun
 	return
 }
 

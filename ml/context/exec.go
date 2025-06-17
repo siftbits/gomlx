@@ -328,12 +328,13 @@ func (e *Exec) buildGraphFn() {
 		// Find variables that were changed, and their updated graph values (*Node).
 		var changedVars []*Variable
 		var allValues []*Node
-		e.context.EnumerateVariables(func(v *Variable) {
+
+		for v := range e.context.IterVariables() {
 			if v.ChangedInGraph(g) {
 				changedVars = append(changedVars, v)
 				allValues = append(allValues, v.ValueGraph(g))
 			}
-		})
+		}
 		{
 			// Save list of variables changed.
 			e.muChangedVars.Lock()

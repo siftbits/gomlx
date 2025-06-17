@@ -77,7 +77,7 @@ func NewDTypeDispatcher(name string) *DTypeDispatcher {
 }
 
 // Dispatch call the function that matches the dtype.
-func (d *DTypeDispatcher) Dispatch(dtype dtypes.DType, params ...any) any {
+func (d *DTypeDispatcher) Dispatch(dtype dtypes.DType, params ...any) any { //lewgun
 	if dtype >= MaxDTypes {
 		exceptions.Panicf("dtype %s not supported by %s", dtype, d.Name)
 	}

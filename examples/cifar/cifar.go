@@ -20,6 +20,12 @@ package cifar
 
 import (
 	"fmt"
+	"image"
+	"io"
+	"os"
+	"path"
+	"reflect"
+
 	. "github.com/gomlx/exceptions"
 	"github.com/gomlx/gomlx/backends"
 	. "github.com/gomlx/gomlx/graph"
@@ -28,11 +34,6 @@ import (
 	"github.com/gomlx/gomlx/types/tensors"
 	"github.com/gomlx/gopjrt/dtypes"
 	"github.com/pkg/errors"
-	"image"
-	"io"
-	"os"
-	"path"
-	"reflect"
 )
 
 const (
@@ -250,6 +251,9 @@ func ConvertToGoImage(images *tensors.Tensor, exampleNum int) *image.NRGBA {
 
 // partitionImagesAndLabels into train and test partitions.
 func partitionImagesAndLabels(backend backends.Backend, images, labels *tensors.Tensor) (partitioned PartitionedImagesAndLabels) {
+
+	fmt.Println(images.Shape(), images.Size(), images.Rank(), images.Summary(2))
+
 	exec := NewExec(backend, func(images, labels *Node) []*Node {
 		imagesTrain := Slice(images, AxisRange(0, NumTrainExamples))
 		labelsTrain := Slice(labels, AxisRange(0, NumTrainExamples))
@@ -262,6 +266,17 @@ func partitionImagesAndLabels(backend backends.Backend, images, labels *tensors.
 	partitioned[0].labels = parts[1]
 	partitioned[1].images = parts[2]
 	partitioned[1].labels = parts[3]
+
+	//	imagesTrain := Slice(images, AxisRange(0, NumTrainExamples))
+	// labelsTrain := Slice(labels, AxisRange(0, NumTrainExamples))
+	// imagesTest := Slice(images, AxisRange(NumTrainExamples))
+	// labelsTest := Slice(labels, AxisRange(NumTrainExamples))
+
+	//partitioned[0].images = imagesTrain
+	// partitioned[0].labels = parts[1]
+	// partitioned[1].images = parts[2]
+	// partitioned[1].labels = parts[3]
+	println("hello")
 	return
 }
 

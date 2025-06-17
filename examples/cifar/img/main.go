@@ -57,7 +57,7 @@ func main() {
 		inp0, lab0 := inputs[0], labels[0]
 		labelStr := cifar.C10Labels[lab0.Value().([]int64)[0]]
 
-		writeImagePNG(images.ToImage().Single(inp0), fmt.Sprintf("img%03d-%s.png", i, labelStr))
+		writeImagePNG(images.ToImage().Single(inp0), fmt.Sprintf("./pic/img%03d-%s.png", i, labelStr))
 		fmt.Printf("img%03d: %s\n", i, labelStr)
 	}
 }
